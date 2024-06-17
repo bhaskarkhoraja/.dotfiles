@@ -12,7 +12,7 @@ function M.config()
 		"tsserver",
 		"html",
 		"cssls",
-		"tailwindcss", -- TODO: not working
+		"tailwindcss",
 		"sqlls",
     "eslint",
 		"jsonls"

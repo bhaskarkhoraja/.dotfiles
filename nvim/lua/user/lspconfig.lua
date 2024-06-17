@@ -72,6 +72,8 @@ function M.config()
     "eslint",
     "tsserver",
     "jsonls",
+		"tailwindcss",
+		"sqlls"
   }
 
   local default_diagnostic_config = {
