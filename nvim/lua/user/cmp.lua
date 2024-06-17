@@ -140,13 +140,6 @@ function M.config()
             vim_item.kind = icons.misc.Robot
             vim_item.kind_hl_group = "CmpItemCodeium"
           end
-
-          if entry.source.name == "tailwind-tools" then
-            vim.notify("got it ")
-            vim_item.kind = icons.misc.Tailwind
-            vim_item.kind_hl_group = "CmpItemTailwind"
-          end
-
         else
           vim_item.kind = icons.kind[vim_item.kind]  .. " " .. vim_item.kind
         end
