@@ -37,28 +37,26 @@ local M = {
       "hrsh7th/cmp-nvim-lua",
     },
     {
-      "luckasRanarison/tailwind-tools.nvim",
-    },
-    {
       "onsails/lspkind-nvim",
-    }
-		-- {
-		-- 	"roobert/tailwindcss-colorizer-cmp.nvim",
-		-- 	-- optionally, override the default options:
-		-- 	config = function()
-		-- 		require("tailwindcss-colorizer-cmp").setup({
-		-- 			color_square_width = 2,
-		-- 		})
-		-- 	end,
-		-- },
+    },
+		{
+			"roobert/tailwindcss-colorizer-cmp.nvim",
+			-- optionally, override the default options:
+			config = function()
+				require("tailwindcss-colorizer-cmp").setup({
+					color_square_width = 2,
+				})
+			end,
+		},
   },
 }
 
 function M.config()
   local cmp = require "cmp"
   local luasnip = require "luasnip"
+  local tailwindcss = require("tailwindcss-colorizer-cmp")
+
   require("luasnip/loaders/from_vscode").lazy_load()
-	-- local tailwindcss = require("tailwindcss-colorizer-cmp")
 
   vim.api.nvim_set_hl(0, "CmpItemCodeium", { fg = "#4BE3D1" })
   vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
@@ -124,10 +122,34 @@ function M.config()
       }),
     },
     formatting = {
-      fields = { "kind", "abbr", "menu" },
+      fields = { "abbr", "menu", "kind" },
       expandable_indicator = true,
       format = function(entry, vim_item)
-        vim_item.kind = icons.kind[vim_item.kind]
+        if icons.kind[vim_item.kind] == nil then
+          if entry.source.name == "emoji" then
+            vim_item.kind = icons.misc.Smiley
+            vim_item.kind_hl_group = "CmpItemKindEmoji"
+          end
+
+          if entry.source.name == "cmp_tabnine" then
+            vim_item.kind = icons.misc.Robot
+            vim_item.kind_hl_group = "CmpItemKindTabnine"
+          end
+
+          if entry.source.name == "codeium" then
+            vim_item.kind = icons.misc.Robot
+            vim_item.kind_hl_group = "CmpItemCodeium"
+          end
+
+          if entry.source.name == "tailwind-tools" then
+            vim.notify("got it ")
+            vim_item.kind = icons.misc.Tailwind
+            vim_item.kind_hl_group = "CmpItemTailwind"
+          end
+
+        else
+          vim_item.kind = icons.kind[vim_item.kind]  .. " " .. vim_item.kind
+        end
         vim_item.menu = ({
           nvim_lsp = "[LSP]",
           nvim_lua = "[Lua]",
@@ -136,29 +158,7 @@ function M.config()
           path = "[Path]",
           emoji = "[Emoji]",
         })[entry.source.name]
-
-        if entry.source.name == "emoji" then
-          vim_item.kind = icons.misc.Smiley
-          vim_item.kind_hl_group = "CmpItemKindEmoji"
-        end
-
-        if entry.source.name == "cmp_tabnine" then
-          vim_item.kind = icons.misc.Robot
-          vim_item.kind_hl_group = "CmpItemKindTabnine"
-        end
-
-        if entry.source.name == "codeium" then
-          vim_item.kind = icons.misc.Robot
-          vim_item.kind_hl_group = "CmpItemCodeium"
-        end
-
-        if entry.source.name == "tailwind-tools" then
-          vim_item.kind = icons.misc.Tailwind
-          vim_item.kind_hl_group = "CmpItemTailwind"
-        end
-
-        -- return tailwindcss.formatter(entry, vim_item)
-        return vim_item
+				return tailwindcss.formatter(entry, vim_item)
       end,
     },
     sources = {
@@ -168,7 +168,6 @@ function M.config()
       { name = "nvim_lua" },
       { name = "path" },
       { name = "emoji" },
-      { name = "tailwind-tools" },
       { name = "codeium" },
       { name = "buffer" }
     },
