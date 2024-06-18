@@ -90,7 +90,30 @@ function M.config()
         theme = "dropdown",
       },
       find_files = {
+					find_command = {
+            'fd',
+            '--type',
+            'f',
+            '--color=never',
+            '--hidden',
+            '--follow',
+            '-E',
+            '.git',
+            '-E',
+            'vendor',
+            '-E',
+            'node_modules',
+            '-E',
+            '.next',
+            '-E',
+            '.svelte-kit',
+            '-E',
+            'dist',
+            '-E',
+            '.contentlayer'
+					},
         path_display = filenameFirst,
+        no_ignore = true
       },
       buffers = {
         theme = "dropdown",
