@@ -110,7 +110,9 @@ function M.config()
             '-E',
             'dist',
             '-E',
-            '.contentlayer'
+            '.contentlayer',
+            '-E',
+            'pnpm-lock.yaml'
 					},
         path_display = filenameFirst,
         no_ignore = true
