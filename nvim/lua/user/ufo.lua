@@ -71,7 +71,7 @@ function M.config()
     open_fold_hl_timeout = 150,
     enable_get_fold_virt_text = true,
     close_fold_kinds_for_ft = {
-        default = {'imports', 'comment'},
+        -- default = {'imports', 'comment'},
     },
     close_fold_kinds = {},
     -- close_fold_kinds = { "imports", "comment" },
